@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -21,16 +22,18 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+        <Users></Users>
+        <Counter></Counter>
         <h1>Products List</h1>
         <ul>
           {
-            products.map(product=> <li>{product.name}</li>)
+            products.map(product => <li>{product.name}</li>)
           }
         </ul>
 
         <h1>price List</h1>
         <ul>
-          {products.map(product=> <li>{product.price}</li>)}
+          {products.map(product => <li>{product.price}</li>)}
         </ul>
 
 
@@ -53,6 +56,38 @@ function App() {
       </header>
     </div>
   );
+}
+
+function Counter() {
+  const [count, setCount] = useState(110);
+
+  return (
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={() => setCount(count + 1)}>increase</button>
+      <button onClick={() => setCount(count - 1)}>Decrease</button>
+    </div>
+  )
+}
+
+function Users() {
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(res => res.json())
+      .then(data => setUsers(data));
+  }, [])
+  return (
+    <div>
+      <h3>Dynamic Effect: {users.length}</h3>
+      <ul>
+        {
+          users.map(user => <li>{user.name} <br></br> {user.email}</li>)
+          
+        }
+      </ul>
+    </div>
+  )
 }
 
 function Product(props) {
